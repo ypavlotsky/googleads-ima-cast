@@ -28,7 +28,7 @@ var Player = function(castPlayer) {
 
   const context = cast.framework.CastReceiverContext.getInstance();
 
-  context.addCustomeMessageListener(IMA_CHANNEL, function(event) {
+  context.addCustomMessageListener(IMA_CHANNEL, function(event) {
     console.log(event.data);
     var message = event.data.split(',');
     var method = message[0];
