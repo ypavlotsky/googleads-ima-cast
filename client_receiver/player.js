@@ -16,41 +16,19 @@
 
 'use strict';
 
+const IMA_CHANNEL = 'urn:x-cast:com.google.ads.ima.cast';
+
 /**
  * Creates new player for video and ad playback.
  * @param {cast.receiver.MediaManager} mediaElement The video element.
  */
-var Player = function(mediaElement) {
-  var namespace = 'urn:x-cast:com.google.ads.ima.cast';
-  this.mediaElement_ = mediaElement;
-  this.mediaManager_ = new cast.receiver.MediaManager(this.mediaElement_);
-  this.castReceiverManager_ = cast.receiver.CastReceiverManager.getInstance();
-  this.imaMessageBus_ = this.castReceiverManager_.getCastMessageBus(namespace);
-  this.castReceiverManager_.start();
+var Player = function(castPlayer) {
+  this.seekEnabled_ = false;
+  this.mediaElement_ = document.getElementById('mediaElement');
 
-  this.originalOnLoad_ = this.mediaManager_.onLoad.bind(this.mediaManager_);
-  this.originalOnEnded_ = this.mediaManager_.onEnded.bind(this.mediaManager_);
-  this.originalOnSeek_ = this.mediaManager_.onSeek.bind(this.mediaManager_);
+  const context = cast.framework.CastreceiverContext.getInstance();
 
-  this.setupCallbacks_();
-};
-
-/**
- * Attaches necessary callbacks.
- * @private
- */
-Player.prototype.setupCallbacks_ = function() {
-  var self = this;
-
-  // Chromecast device is disconnected from sender app.
-  this.castReceiverManager_.onSenderDisconnected = function() {
-    window.close();
-  };
-
-  // Receives messages from sender app. The message is a comma separated string
-  // where the first substring indicates the function to be called and the
-  // following substrings are the parameters to be passed to the function.
-  this.imaMessageBus_.onMessage = function(event) {
+  context.addCustomeMessageListener(IMA_CHANNEL, function(event) {
     console.log(event.data);
     var message = event.data.split(',');
     var method = message[0];
@@ -68,14 +46,33 @@ Player.prototype.setupCallbacks_ = function() {
         self.broadcast_('Message not recognized');
         break;
     }
-  };
+  });
 
-  // Initializes IMA SDK when Media Manager is loaded.
-  this.mediaManager_.onLoad = function(event) {
-    self.originalOnLoadEvent_ = event;
-    self.initIMA_();
-    self.originalOnLoad_(self.originalOnLoadEvent_);
-  };
+  const playerManager = context.getPlayerManager();
+  playerManager.setMediaElement();
+
+  playerManager.setMessageInterceptor(
+    cast.framework.messages.MessageType.LOAD, loadRequestData => {
+      console.log(loadRequestData);
+      this.loadRequestData_ = loadRequestData;
+      this.initIMA_();
+      return loadRequestData;
+    });
+
+  playerManager.setMessageInterceptor(
+    cast.framework.messages.MessageType.SEEK, seekRequestData => {
+      console.log(seekRequestData);
+      if (seekEnabled_) {
+        return loadRequestData;
+      } else {
+        return null;
+      }
+    });
+  
+  context.start();
+
+  this.context_ = context;
+  this.playerManager_ = playerManager;
 };
 
 /**
@@ -84,7 +81,7 @@ Player.prototype.setupCallbacks_ = function() {
  * @private
  */
 Player.prototype.broadcast_ = function(message) {
-  this.imaMessageBus_.broadcast(message);
+  this.context_.sendCustomMessage(IMA_CHANNEL, undefined, message);
 };
 
 /**
@@ -162,8 +159,8 @@ Player.prototype.onAdError_ = function(adErrorEvent) {
 Player.prototype.onContentPauseRequested_ = function() {
   this.currentContentTime_ = this.mediaElement_.currentTime;
   this.broadcast_('onContentPauseRequested,' + this.currentContentTime_);
-  this.mediaManager_.onEnded = function(event) {};
-  this.mediaManager_.onSeek = function(event) {};
+
+  this.seekEnabled_ = false;
 };
 
 /**
@@ -172,10 +169,9 @@ Player.prototype.onContentPauseRequested_ = function() {
  */
 Player.prototype.onContentResumeRequested_ = function() {
   this.broadcast_('onContentResumeRequested');
-  this.mediaManager_.onEnded = this.originalOnEnded_.bind(this.mediaManager_);
-  this.mediaManager_.onSeek = this.originalOnSeek_.bind(this.mediaManager_);
+  this.seekEnabled_ = true;
 
-  this.originalOnLoad_(this.originalOnLoadEvent_);
+  this.playerManager_.load(this.loadRequestData_);
   this.seek_(this.currentContentTime_);
 };
 
