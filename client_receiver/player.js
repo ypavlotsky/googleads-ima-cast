@@ -23,7 +23,7 @@ const IMA_CHANNEL = 'urn:x-cast:com.google.ads.ima.cast';
  * @param {cast.receiver.MediaManager} mediaElement The video element.
  */
 var Player = function(castPlayer) {
-  this.seekEnabled_ = false;
+  this.adsPlaying_ = false;
   this.mediaElement_ = document.getElementById('mediaElement');
 
   const context = cast.framework.CastReceiverContext.getInstance();
@@ -54,15 +54,17 @@ var Player = function(castPlayer) {
   playerManager.setMessageInterceptor(
     cast.framework.messages.MessageType.LOAD, loadRequestData => {
       console.log(loadRequestData);
-      this.loadRequestData_ = loadRequestData;
-      this.initIMA_();
+      if (!adsPlaying_) {
+        this.loadRequestData_ = loadRequestData;
+        this.initIMA_();
+      }
       return loadRequestData;
     });
 
   playerManager.setMessageInterceptor(
     cast.framework.messages.MessageType.SEEK, seekRequestData => {
       console.log(seekRequestData);
-      if (seekEnabled_) {
+      if (!adsPlaying_) {
         return loadRequestData;
       } else {
         return null;
@@ -160,7 +162,7 @@ Player.prototype.onContentPauseRequested_ = function() {
   this.currentContentTime_ = this.mediaElement_.currentTime;
   this.broadcast_('onContentPauseRequested,' + this.currentContentTime_);
 
-  this.seekEnabled_ = false;
+  this.adsPlaying_ = true;
 };
 
 /**
@@ -169,7 +171,7 @@ Player.prototype.onContentPauseRequested_ = function() {
  */
 Player.prototype.onContentResumeRequested_ = function() {
   this.broadcast_('onContentResumeRequested');
-  this.seekEnabled_ = true;
+  this.adsPlaying_ = false;
 
   this.playerManager_.load(this.loadRequestData_);
   this.seek_(this.currentContentTime_);
