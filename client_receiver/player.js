@@ -54,7 +54,7 @@ var Player = function(castPlayer) {
   playerManager.setMessageInterceptor(
     cast.framework.messages.MessageType.LOAD, loadRequestData => {
       console.log(loadRequestData);
-      if (!adsPlaying_) {
+      if (!this.adsPlaying_) {
         this.loadRequestData_ = loadRequestData;
         this.initIMA_();
       }
@@ -64,7 +64,7 @@ var Player = function(castPlayer) {
   playerManager.setMessageInterceptor(
     cast.framework.messages.MessageType.SEEK, seekRequestData => {
       console.log(seekRequestData);
-      if (!adsPlaying_) {
+      if (!this.adsPlaying_) {
         return loadRequestData;
       } else {
         return null;
