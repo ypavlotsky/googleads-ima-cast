@@ -26,7 +26,7 @@ var Player = function(castPlayer) {
   this.seekEnabled_ = false;
   this.mediaElement_ = document.getElementById('mediaElement');
 
-  const context = cast.framework.CastreceiverContext.getInstance();
+  const context = cast.framework.CastReceiverContext.getInstance();
 
   context.addCustomeMessageListener(IMA_CHANNEL, function(event) {
     console.log(event.data);
