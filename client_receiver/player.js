@@ -28,7 +28,7 @@ var Player = function(castPlayer) {
 
   const context = cast.framework.CastReceiverContext.getInstance();
 
-  context.addCustomMessageListener(IMA_CHANNEL, function(event) {
+  /*context.addCustomMessageListener(IMA_CHANNEL, function(event) {
     console.log(event.data);
     var message = event.data.split(',');
     var method = message[0];
@@ -46,7 +46,7 @@ var Player = function(castPlayer) {
         self.broadcast_('Message not recognized');
         break;
     }
-  });
+  });*/
 
   const playerManager = context.getPlayerManager();
   /*playerManager.setMediaElement(this.mediaElement_);
