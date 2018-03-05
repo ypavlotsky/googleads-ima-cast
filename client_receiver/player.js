@@ -23,7 +23,7 @@ const IMA_CHANNEL = 'urn:x-cast:com.google.ads.ima.cast';
  * @param {cast.receiver.MediaManager} mediaElement The video element.
  */
 var Player = function(castPlayer) {
-  this.adsPlaying_ = false;
+  /*this.adsPlaying_ = false;
   this.mediaElement_ = document.getElementById('mediaElement');
 
   const context = cast.framework.CastReceiverContext.getInstance();
@@ -80,7 +80,9 @@ var Player = function(castPlayer) {
   context.start();
 
   this.context_ = context;
-  this.playerManager_ = playerManager;
+  this.playerManager_ = playerManager;*/
+  cast.framework.CastReceiverContext.getInstance().start();
+
 };
 
 /**
