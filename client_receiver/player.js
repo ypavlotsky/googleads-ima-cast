@@ -71,10 +71,10 @@ var Player = function(castPlayer) {
       }
     });
   
-  context.start();
+  context.start();*/
 
   this.context_ = context;
-  this.playerManager_ = playerManager;*/
+  this.playerManager_ = playerManager;
 
   // listen to all Core Events
   playerManager.addEventListener(cast.framework.events.category.CORE,
