@@ -23,7 +23,7 @@ const IMA_CHANNEL = 'urn:x-cast:com.google.ads.ima.cast';
  * @param {cast.receiver.MediaManager} mediaElement The video element.
  */
 var Player = function(castPlayer) {
-  /*this.adsPlaying_ = false;
+  this.adsPlaying_ = false;
   this.mediaElement_ = document.getElementById('mediaElement');
 
   const context = cast.framework.CastReceiverContext.getInstance();
@@ -48,7 +48,7 @@ var Player = function(castPlayer) {
     }
   });
 
-  const playerManager = context.getPlayerManager();
+  /*const playerManager = context.getPlayerManager();
   playerManager.setMediaElement(this.mediaElement_);
 
   playerManager.setMessageInterceptor(
@@ -70,17 +70,19 @@ var Player = function(castPlayer) {
         return null;
       }
     });
+  
+  context.start();
+
+  this.context_ = context;
+  this.playerManager_ = playerManager;*/
 
   // listen to all Core Events
   playerManager.addEventListener(cast.framework.events.category.CORE,
       event => {
           console.log(event);
       });
-  
-  context.start();
 
-  this.context_ = context;
-  this.playerManager_ = playerManager;*/
+
   cast.framework.CastReceiverContext.getInstance().start();
 
 };
