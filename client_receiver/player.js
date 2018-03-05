@@ -48,8 +48,8 @@ var Player = function(castPlayer) {
     }
   });
 
-  /*const playerManager = context.getPlayerManager();
-  playerManager.setMediaElement(this.mediaElement_);
+  const playerManager = context.getPlayerManager();
+  /*playerManager.setMediaElement(this.mediaElement_);
 
   playerManager.setMessageInterceptor(
     cast.framework.messages.MessageType.LOAD, loadRequestData => {
