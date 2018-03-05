@@ -70,6 +70,12 @@ var Player = function(castPlayer) {
         return null;
       }
     });
+
+  // listen to all Core Events
+  playerManager.addEventListener(cast.framework.events.category.CORE,
+      event => {
+          console.log(event);
+      });
   
   context.start();
 
