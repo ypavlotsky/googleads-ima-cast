@@ -83,6 +83,7 @@ var Player = function(castPlayer) {
  * @private
  */
 Player.prototype.broadcast_ = function(message) {
+  console.log("broadcast_");
   this.context_.sendCustomMessage(IMA_CHANNEL, undefined, message);
 };
 
@@ -91,6 +92,7 @@ Player.prototype.broadcast_ = function(message) {
  * @private
  */
 Player.prototype.initIMA_ = function() {
+  console.log("initIMA_");
   this.currentContentTime_ = -1;
   var adDisplayContainer = new google.ima.AdDisplayContainer(
       document.getElementById('adContainer'), this.mediaElement_);
@@ -112,6 +114,7 @@ Player.prototype.initIMA_ = function() {
  * @private
  */
 Player.prototype.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
+  console.log("onAdsManagerLoaded_");
   var adsRenderingSettings = new google.ima.AdsRenderingSettings();
   adsRenderingSettings.playAdsAfterTime = this.currentContentTime_;
 
@@ -146,6 +149,7 @@ Player.prototype.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
  * @private
  */
 Player.prototype.onAdError_ = function(adErrorEvent) {
+  console.log("onAdError_");
   this.broadcast_('Ad Error: ' + adErrorEvent.getError().toString());
   // Handle the error logging.
   if (this.adsManager_) {
@@ -159,6 +163,7 @@ Player.prototype.onAdError_ = function(adErrorEvent) {
  * @private
  */
 Player.prototype.onContentPauseRequested_ = function() {
+  console.log("onContentPauseRequested");
   this.currentContentTime_ = this.mediaElement_.currentTime;
   this.broadcast_('onContentPauseRequested,' + this.currentContentTime_);
 
@@ -170,6 +175,7 @@ Player.prototype.onContentPauseRequested_ = function() {
  * @private
  */
 Player.prototype.onContentResumeRequested_ = function() {
+  console.log("onContentResumeRequested");
   this.broadcast_('onContentResumeRequested');
   this.adsPlaying_ = false;
 
@@ -194,6 +200,7 @@ Player.prototype.onAllAdsCompleted_ = function() {
  * @private
  */
 Player.prototype.requestAd_ = function(adTag, currentTime) {
+  console.log("requestAd:" + adTag + ":" + currentTime);
   if (currentTime != 0) {
     this.currentContentTime_ = currentTime;
   }
@@ -212,6 +219,7 @@ Player.prototype.requestAd_ = function(adTag, currentTime) {
  * @private
  */
 Player.prototype.seek_ = function(time) {
+  console.log("seek:" + time);
   this.currentContentTime_ = time;
   this.mediaElement_.currentTime = time;
   this.mediaElement_.play();
