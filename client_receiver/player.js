@@ -77,7 +77,7 @@ Player.prototype.setupCallbacks_ = function() {
 
   // Initializes IMA SDK when Media Manager is loaded.
   this.playerManager_.setMessageInterceptor(
-    cast.framework.message.MessageType.LOAD,
+    cast.framework.messages.MessageType.LOAD,
     (request) => {
       self.initIMA_();
       return request;
