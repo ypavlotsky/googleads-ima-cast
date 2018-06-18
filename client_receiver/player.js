@@ -46,8 +46,8 @@ Player.prototype.setupCallbacks_ = function() {
   let self = this;
 
   // Chromecast device is disconnected from sender app.
-  this.playerManager_.addEventListener(
-      cast.framework.events.EventType.SENDER_DISCONNECTED, (event) => {
+  this.context_.addEventListener(
+      cast.framework.system.EventType.SENDER_DISCONNECTED, (event) => {
         window.close();
   });
 
