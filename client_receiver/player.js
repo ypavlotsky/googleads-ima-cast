@@ -26,7 +26,7 @@ var Player = function(mediaPlayer) {
   this.context_ = cast.framework.CastReceiverContext.getInstance();
   this.playerManager_ = this.context_.getPlayerManager();
 
-  const options = cast.framework.CastReceiverOptions();
+  const options = new cast.framework.CastReceiverOptions();
   // Map of namespace names to their types.
   options.customNamespaces = {
     NAMESPACE: cast.framework.system.MessageType.STRING,
