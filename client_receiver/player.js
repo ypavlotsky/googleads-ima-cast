@@ -29,7 +29,7 @@ var Player = function(mediaPlayer) {
   const options = new cast.framework.CastReceiverOptions();
   // Map of namespace names to their types.
   options.customNamespaces = {
-    NAMESPACE: cast.framework.system.MessageType.STRING,
+    [NAMESPACE]: cast.framework.system.MessageType.STRING,
   };
 
   this.mediaPlayer_ = mediaPlayer;
