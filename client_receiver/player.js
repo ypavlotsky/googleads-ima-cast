@@ -90,7 +90,7 @@ Player.prototype.setupCallbacks_ = function() {
  * @private
  */
 Player.prototype.broadcast_ = function(message) {
-  this.context_.sendCustomMessage(NAMESPACE, message);
+  this.context_.sendCustomMessage(NAMESPACE, undefined, message);
 };
 
 /**
