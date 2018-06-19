@@ -22,9 +22,10 @@ const NAMESPACE = 'urn:x-cast:com.google.ads.ima.cast';
  * Creates new player for video and ad playback.
  * 
  */
-var Player = function(mediaPlayer) {
+var Player = function() {
   this.context_ = cast.framework.CastReceiverContext.getInstance();
   this.playerManager_ = this.context_.getPlayerManager();
+  this.mediaElement_ = document.getElementById('player').getMediaElement();
 
   const options = new cast.framework.CastReceiverOptions();
   // Map of namespace names to their types.
@@ -32,7 +33,6 @@ var Player = function(mediaPlayer) {
     [NAMESPACE]: cast.framework.system.MessageType.STRING,
   };
 
-  this.mediaPlayer_ = mediaPlayer;
   this.context_.start(options);
 
   this.setupCallbacks_();
@@ -100,7 +100,7 @@ Player.prototype.broadcast_ = function(message) {
 Player.prototype.initIMA_ = function() {
   this.currentContentTime_ = -1;
   var adDisplayContainer = new google.ima.AdDisplayContainer(
-      document.getElementById('adContainer'), this.mediaPlayer_);
+      document.getElementById('adContainer'), this.mediaElement_);
   adDisplayContainer.initialize();
   this.adsLoader_ = new google.ima.AdsLoader(adDisplayContainer);
   this.adsLoader_.getSettings().setPlayerType('cast/client-side');
@@ -125,7 +125,7 @@ Player.prototype.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
 
   // Get the ads manager.
   this.adsManager_ = adsManagerLoadedEvent.getAdsManager(
-    this.mediaPlayer_, adsRenderingSettings);
+    this.mediaElement_, adsRenderingSettings);
 
   // Add listeners to the required events.
   this.adsManager_.addEventListener(
@@ -139,7 +139,7 @@ Player.prototype.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
       this.onContentResumeRequested_.bind(this));
 
   try {
-    this.adsManager_.init(this.mediaPlayer_.width, this.mediaPlayer_.height,
+    this.adsManager_.init(this.mediaElement_.width, this.mediaElement_.height,
         google.ima.ViewMode.FULLSCREEN);
     this.adsManager_.start();
   } catch (adError) {
@@ -159,7 +159,7 @@ Player.prototype.onAdError_ = function(adErrorEvent) {
   if (this.adsManager_) {
     this.adsManager_.destroy();
   }
-  this.mediaPlayer_.play();
+  this.playerManager_.play();
 };
 
 /**
@@ -167,7 +167,7 @@ Player.prototype.onAdError_ = function(adErrorEvent) {
  * @private
  */
 Player.prototype.onContentPauseRequested_ = function() {
-  this.currentContentTime_ = this.mediaPlayer_.currentTime;
+  this.currentContentTime_ = this.mediaElement_.currentTime;
   this.broadcast_('onContentPauseRequested,' + this.currentContentTime_);
   //this.mediaManager_.onEnded = function(event) {};
   //this.mediaManager_.onSeek = function(event) {};
@@ -208,10 +208,10 @@ Player.prototype.requestAd_ = function(adTag, currentTime) {
   }
   var adsRequest = new google.ima.AdsRequest();
   adsRequest.adTagUrl = adTag;
-  adsRequest.linearAdSlotWidth = this.mediaPlayer_.width;
-  adsRequest.linearAdSlotHeight = this.mediaPlayer_.height;
-  adsRequest.nonLinearAdSlotWidth = this.mediaPlayer_.width;
-  adsRequest.nonLinearAdSlotHeight = this.mediaPlayer_.height / 3;
+  adsRequest.linearAdSlotWidth = 640;
+  adsRequest.linearAdSlotHeight = 400;
+  adsRequest.nonLinearAdSlotWidth = 640;
+  adsRequest.nonLinearAdSlotHeight = 150;
   this.adsLoader_.requestAds(adsRequest);
 };
 
@@ -222,6 +222,6 @@ Player.prototype.requestAd_ = function(adTag, currentTime) {
  */
 Player.prototype.seek_ = function(time) {
   this.currentContentTime_ = time;
-  this.mediaPlayer_.currentTime = time;
-  this.mediaPlayer_.play();
+  this.mediaElement__.currentTime = time;
+  this.playerManager_.play();
 };
