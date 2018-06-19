@@ -182,8 +182,9 @@ Player.prototype.onContentResumeRequested_ = function() {
   //this.mediaManager_.onEnded = this.originalOnEnded_.bind(this.mediaManager_);
   //this.mediaManager_.onSeek = this.originalOnSeek_.bind(this.mediaManager_);
 
+
   //this.originalOnLoad_(this.originalOnLoadEvent_);
-  //this.seek_(this.currentContentTime_);
+  this.seek_(this.currentContentTime_);
 };
 
 /**
