@@ -223,6 +223,6 @@ Player.prototype.requestAd_ = function(adTag, currentTime) {
  */
 Player.prototype.seek_ = function(time) {
   this.currentContentTime_ = time;
-  this.mediaElement__.currentTime = time;
+  this.mediaElement_.currentTime = time;
   this.playerManager_.play();
 };
