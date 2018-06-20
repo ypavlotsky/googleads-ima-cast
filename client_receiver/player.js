@@ -91,7 +91,7 @@ Player.prototype.setupCallbacks_ = function() {
     (event) => {
       // Check that we are not currently playing ads.
       if (!this.isAd_ &&
-        event.currentTime >= event.media.duration) {
+        event.mediaStatus.currentTime >= event.mediaStatus.media.duration) {
           this.adsLoader_.contentComplete();
       }
     });
