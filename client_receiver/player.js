@@ -91,7 +91,7 @@ Player.prototype.setupCallbacks_ = function() {
     (event) => {
       // Check that we are not currently playing ads.
       if (!this.isAd_ &&
-        event.EndedReason == cast.framework.events.EndedReason.END_OF_STREAM) {
+        event.endedReason == cast.framework.events.EndedReason.END_OF_STREAM) {
           this.adsLoader_.contentComplete();
       }
     });
