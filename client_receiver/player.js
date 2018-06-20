@@ -86,14 +86,13 @@ Player.prototype.setupCallbacks_ = function() {
       return request;
     });
 
-  this.playerManager_.setMessageInterceptor(
+  this.playerManager_.addEventListener(
     cast.framework.events.EventType.ENDED,
-    (request) => {
+    (event) => {
       // Check that we are not currently playing ads.
       if (!this.isAd_) {
         adsLoader_.contentComplete();
       }
-      return request;
     });
 };
 
