@@ -81,6 +81,8 @@ Player.prototype.setupCallbacks_ = function() {
     (request) => {
       self.initIMA_();
       this.request_ = request;
+      this.playerManager_.setMessageInterceptor(
+        cast.framework.messages.MessageType.LOAD, null); // unset interceptor.
       return request;
     });
 };
