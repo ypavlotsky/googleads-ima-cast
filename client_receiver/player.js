@@ -88,11 +88,12 @@ Player.prototype.setupCallbacks_ = function() {
 
   this.playerManager_.setMessageInterceptor(
     cast.framework.events.EventType.ENDED,
-    (type, currentMediaTime) => {
+    (request) => {
       // Check that we are not currently playing ads.
       if (!this.isAd_) {
         adsLoader_.contentComplete();
       }
+      return request;
     });
 };
 
