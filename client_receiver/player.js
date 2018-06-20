@@ -87,12 +87,11 @@ Player.prototype.setupCallbacks_ = function() {
     });
 
   this.playerManager_.addEventListener(
-    cast.framework.events.EventType.MEDIA_FINISHED,
+    cast.framework.events.EventType.MEDIA_STATUS,
     (event) => {
       // Check that we are not currently playing ads.
       if (!this.isAd_ &&
-        event.endedReason == cast.framework.events.EndedReason.END_OF_STREAM) {
-          this.playerManager_.pause();
+        event.currentTime >= event.media.duration) {
           this.adsLoader_.contentComplete();
       }
     });
