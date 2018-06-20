@@ -22,7 +22,7 @@ const NAMESPACE = 'urn:x-cast:com.google.ads.ima.cast';
  * Creates new player for video and ad playback.
  * 
  */
-var Player = function() {
+let Player = function() {
   this.context_ = cast.framework.CastReceiverContext.getInstance();
   this.playerManager_ = this.context_.getPlayerManager();
   this.mediaElement_ = document.getElementById('player').getMediaElement();
@@ -55,16 +55,16 @@ Player.prototype.setupCallbacks_ = function() {
   // following substrings are the parameters to be passed to the function.
   this.context_.addCustomMessageListener(NAMESPACE, (event) => {
     console.log(event.data);
-    var message = event.data.split(',');
-    var method = message[0];
+    let message = event.data.split(',');
+    let method = message[0];
     switch (method) {
       case 'requestAd':
-        var adTag = message[1];
-        var currentTime = parseFloat(message[2]);
+        let adTag = message[1];
+        let currentTime = parseFloat(message[2]);
         self.requestAd_(adTag, currentTime);
         break;
       case 'seek':
-        var time = parseFloat(message[1]);
+        let time = parseFloat(message[1]);
         self.seek_(time);
         break;
       default:
@@ -101,7 +101,7 @@ Player.prototype.broadcast_ = function(message) {
  */
 Player.prototype.initIMA_ = function() {
   this.currentContentTime_ = -1;
-  var adDisplayContainer = new google.ima.AdDisplayContainer(
+  let adDisplayContainer = new google.ima.AdDisplayContainer(
       document.getElementById('adContainer'), this.mediaElement_);
   adDisplayContainer.initialize();
   this.adsLoader_ = new google.ima.AdsLoader(adDisplayContainer);
@@ -122,7 +122,7 @@ Player.prototype.initIMA_ = function() {
  * @private
  */
 Player.prototype.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
-  var adsRenderingSettings = new google.ima.AdsRenderingSettings();
+  let adsRenderingSettings = new google.ima.AdsRenderingSettings();
   adsRenderingSettings.playAdsAfterTime = this.currentContentTime_;
 
   // Get the ads manager.
@@ -206,7 +206,7 @@ Player.prototype.requestAd_ = function(adTag, currentTime) {
   if (currentTime != 0) {
     this.currentContentTime_ = currentTime;
   }
-  var adsRequest = new google.ima.AdsRequest();
+  let adsRequest = new google.ima.AdsRequest();
   adsRequest.adTagUrl = adTag;
   adsRequest.linearAdSlotWidth = this.mediaElement_.width;
   adsRequest.linearAdSlotHeight = this.mediaElement_.height;
