@@ -26,7 +26,6 @@ var Player = function() {
   this.context_ = cast.framework.CastReceiverContext.getInstance();
   this.playerManager_ = this.context_.getPlayerManager();
   this.mediaElement_ = document.getElementById('player').getMediaElement();
-  this.duration_ = Number.MAX_VALUE;
 
   const options = new cast.framework.CastReceiverOptions();
   // Map of namespace names to their types.
@@ -83,7 +82,9 @@ Player.prototype.setupCallbacks_ = function() {
       if (!this.request_) {
         self.initIMA_();
       }
-      this.duration_ = request.media.duration;
+      if (request.media.duration != null) {
+        this.duration_ = request.media.duration;
+      }
       this.request_ = request;
       return request;
     });
@@ -92,7 +93,7 @@ Player.prototype.setupCallbacks_ = function() {
     cast.framework.events.EventType.MEDIA_STATUS,
     (event) => {
       // Check that we are not currently playing ads.
-      if (!this.isAd_ &&
+      if (!this.isAd_ && this.duration &&
         event.mediaStatus.currentTime >= this.duration_) {
           this.adsLoader_.contentComplete();
       }
