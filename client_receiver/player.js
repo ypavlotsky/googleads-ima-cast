@@ -82,6 +82,7 @@ Player.prototype.setupCallbacks_ = function() {
       if (!this.request_) {
         self.initIMA_();
       }
+      this.duration_ = request.media.duration;
       this.request_ = request;
       return request;
     });
@@ -91,7 +92,7 @@ Player.prototype.setupCallbacks_ = function() {
     (event) => {
       // Check that we are not currently playing ads.
       if (!this.isAd_ &&
-        event.mediaStatus.currentTime >= event.mediaStatus.media.duration) {
+        event.mediaStatus.currentTime >= this.duration_) {
           this.adsLoader_.contentComplete();
       }
     });
