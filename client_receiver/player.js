@@ -26,6 +26,7 @@ var Player = function() {
   this.context_ = cast.framework.CastReceiverContext.getInstance();
   this.playerManager_ = this.context_.getPlayerManager();
   this.mediaElement_ = document.getElementById('player').getMediaElement();
+  this.duration_ = Number.MAX_VALUE;
 
   const options = new cast.framework.CastReceiverOptions();
   // Map of namespace names to their types.
