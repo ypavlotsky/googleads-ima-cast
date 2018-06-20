@@ -80,6 +80,7 @@ Player.prototype.setupCallbacks_ = function() {
     cast.framework.messages.MessageType.LOAD,
     (request) => {
       self.initIMA_();
+      this.request_ = request;
       return request;
     });
 };
@@ -122,7 +123,6 @@ Player.prototype.initIMA_ = function() {
 Player.prototype.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
   var adsRenderingSettings = new google.ima.AdsRenderingSettings();
   adsRenderingSettings.playAdsAfterTime = this.currentContentTime_;
-  adsRenderingSettings.restoreCustomPlaybackStateOnAdBreakComplete = true;
 
   // Get the ads manager.
   this.adsManager_ = adsManagerLoadedEvent.getAdsManager(
@@ -187,6 +187,7 @@ Player.prototype.onContentResumeRequested_ = function() {
 
 
   //this.originalOnLoad_(this.originalOnLoadEvent_);
+  this.playerManager_.load(this.request_);
   this.seek_(this.currentContentTime_);
 };
 
