@@ -32,9 +32,9 @@ var Player = function() {
   options.customNamespaces = {
     [NAMESPACE]: cast.framework.system.MessageType.STRING,
   };
+  this.context_.start(options);
 
   this.setupCallbacks_();
-  this.context_.start(options);
 };
 
 /**
