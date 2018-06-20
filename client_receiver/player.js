@@ -90,8 +90,9 @@ Player.prototype.setupCallbacks_ = function() {
     cast.framework.events.EventType.MEDIA_FINISHED,
     (event) => {
       // Check that we are not currently playing ads.
-      if (!this.isAd_) {
-        this.adsLoader_.contentComplete();
+      if (!this.isAd_ &&
+        event.EndedReason == cast.framework.events.EndedReason.END_OF_STREAM) {
+          this.adsLoader_.contentComplete();
       }
     });
 };
