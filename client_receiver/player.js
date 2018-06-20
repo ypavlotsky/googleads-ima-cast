@@ -128,6 +128,8 @@ Player.prototype.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
   this.adsManager_ = adsManagerLoadedEvent.getAdsManager(
     this.mediaElement_, adsRenderingSettings);
 
+  console.log("Custom playback? " + this.adsManager_.isCustomPlaybackUsed());
+
   // Add listeners to the required events.
   this.adsManager_.addEventListener(
       google.ima.AdErrorEvent.Type.AD_ERROR,
