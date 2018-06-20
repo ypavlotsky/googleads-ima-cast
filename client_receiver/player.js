@@ -96,6 +96,12 @@ Player.prototype.setupCallbacks_ = function() {
           this.adsLoader_.contentComplete();
       }
     });
+
+    this.playerManager_.addEventListener(
+      cast.framework.events.category.REQUEST,
+      (event) => {
+        console.log("media event: " + event.type);
+    });
 };
 
 /**
