@@ -91,7 +91,7 @@ Player.prototype.setupCallbacks_ = function() {
     (event) => {
       // Check that we are not currently playing ads.
       if (!this.isAd_) {
-        adsLoader_.contentComplete();
+        this.adsLoader_.contentComplete();
       }
     });
 };
