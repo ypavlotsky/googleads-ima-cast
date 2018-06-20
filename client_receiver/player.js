@@ -190,7 +190,8 @@ Player.prototype.onContentResumeRequested_ = function() {
 
   //this.originalOnLoad_(this.originalOnLoadEvent_);
   this.playerManager_.load(this.request_);
-  this.seek_(this.currentContentTime_);
+  this.playerManager_.play();
+  //this.seek_(this.currentContentTime_);
 };
 
 /**
