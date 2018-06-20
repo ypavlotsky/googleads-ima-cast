@@ -95,6 +95,7 @@ Player.prototype.setupCallbacks_ = function() {
       // Check that we are not currently playing ads.
       if (!this.isAd_ && event.mediaStatus.idleReason == 
         cast.framework.messages.IdleReason.FINISHED) {
+          this.playerManager_.pause();
           this.adsLoader_.contentComplete();
       }
     });
