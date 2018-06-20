@@ -87,7 +87,7 @@ Player.prototype.setupCallbacks_ = function() {
     });
 
   this.playerManager_.addEventListener(
-    cast.framework.events.EventType.ENDED,
+    cast.framework.events.EventType.MEDIA_FINISHED,
     (event) => {
       // Check that we are not currently playing ads.
       if (!this.isAd_) {
