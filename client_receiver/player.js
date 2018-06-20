@@ -98,9 +98,9 @@ Player.prototype.setupCallbacks_ = function() {
     });
 
     this.playerManager_.addEventListener(
-      cast.framework.events.category.REQUEST,
+      cast.framework.events.category.CORE,
       (event) => {
-        console.log("media event: " + event.type);
+        console.log("core event: " + event.type);
     });
 };
 
