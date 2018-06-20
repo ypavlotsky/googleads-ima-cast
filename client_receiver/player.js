@@ -93,8 +93,8 @@ Player.prototype.setupCallbacks_ = function() {
     cast.framework.events.EventType.MEDIA_STATUS,
     (event) => {
       // Check that we are not currently playing ads.
-      if (!this.isAd_ && this.duration &&
-        event.mediaStatus.currentTime >= this.duration_) {
+      if (!this.isAd_ && this.duration && event.mediaStatus.idleReason == 
+        cast.framework.messages.IdleReason.FINISHED) {
           this.adsLoader_.contentComplete();
       }
     });
