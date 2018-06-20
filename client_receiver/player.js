@@ -33,9 +33,8 @@ var Player = function() {
     [NAMESPACE]: cast.framework.system.MessageType.STRING,
   };
 
-  this.context_.start(options);
-
   this.setupCallbacks_();
+  this.context_.start(options);
 };
 
 /**
@@ -82,28 +81,8 @@ Player.prototype.setupCallbacks_ = function() {
       if (!this.request_) {
         self.initIMA_();
       }
-      if (request.media.duration != null) {
-        this.duration_ = request.media.duration;
-      }
       this.request_ = request;
       return request;
-    });
-
-  this.playerManager_.addEventListener(
-    cast.framework.events.EventType.MEDIA_STATUS,
-    (event) => {
-      // Check that we are not currently playing ads.
-      if (!this.isAd_ && event.mediaStatus.idleReason == 
-        cast.framework.messages.IdleReason.FINISHED) {
-          this.playerManager_.pause();
-          this.adsLoader_.contentComplete();
-      }
-    });
-
-    this.playerManager_.addEventListener(
-      cast.framework.events.category.CORE,
-      (event) => {
-        console.log("core event: " + event.type);
     });
 };
 
@@ -150,8 +129,6 @@ Player.prototype.onAdsManagerLoaded_ = function(adsManagerLoadedEvent) {
   this.adsManager_ = adsManagerLoadedEvent.getAdsManager(
     this.mediaElement_, adsRenderingSettings);
 
-  console.log("Custom playback? " + this.adsManager_.isCustomPlaybackUsed());
-
   // Add listeners to the required events.
   this.adsManager_.addEventListener(
       google.ima.AdErrorEvent.Type.AD_ERROR,
@@ -184,7 +161,6 @@ Player.prototype.onAdError_ = function(adErrorEvent) {
   if (this.adsManager_) {
     this.adsManager_.destroy();
   }
-  this.isAd_ = false;
   // Play content.
   this.playerManager_.load(this.request_);
   this.playerManager_.seek(this.currentContentTime_);
@@ -196,7 +172,6 @@ Player.prototype.onAdError_ = function(adErrorEvent) {
  */
 Player.prototype.onContentPauseRequested_ = function() {
   this.currentContentTime_ = this.mediaElement_.currentTime;
-  this.isAd_ = true;
   this.broadcast_('onContentPauseRequested,' + this.currentContentTime_);
 };
 
@@ -207,7 +182,6 @@ Player.prototype.onContentPauseRequested_ = function() {
 Player.prototype.onContentResumeRequested_ = function() {
   this.broadcast_('onContentResumeRequested');
 
-  this.isAd_ = false;
   this.playerManager_.load(this.request_);
   this.seek_(this.currentContentTime_);
 };
