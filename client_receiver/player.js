@@ -27,10 +27,14 @@ let Player = function() {
   this.playerManager_ = this.context_.getPlayerManager();
   this.mediaElement_ = document.getElementById('player').getMediaElement();
 
-  this.setupCallbacks_();
-  
   const options = new cast.framework.CastReceiverOptions();
+  // Map of namespace names to their types.
+  options.customNamespaces = {
+    NAMESPACE: cast.framework.system.MessageType.STRING,
+  };
   this.context_.start(options);
+
+  this.setupCallbacks_();
 };
 
 /**
