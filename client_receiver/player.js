@@ -29,9 +29,9 @@ let Player = function() {
 
   const options = new cast.framework.CastReceiverOptions();
   // Map of namespace names to their types.
-  options.customNamespaces = {
-    NAMESPACE: cast.framework.system.MessageType.STRING,
-  };
+  options.customNamespaces = {};
+  options.customNamespaces[NAMESPACE] =
+      cast.framework.system.MessageType.STRING;
   this.context_.start(options);
 
   this.setupCallbacks_();
