@@ -20,7 +20,7 @@ const NAMESPACE = 'urn:x-cast:com.google.ads.ima.cast';
 
 /**
  * Creates new player for video and ad playback.
- * 
+ *
  */
 let Player = function() {
   this.context_ = cast.framework.CastReceiverContext.getInstance();
@@ -30,7 +30,7 @@ let Player = function() {
   const options = new cast.framework.CastReceiverOptions();
   // Map of namespace names to their types.
   options.customNamespaces = {
-    [NAMESPACE]: cast.framework.system.MessageType.STRING,
+    'urn:x-cast:com.google.ads.ima.cast': cast.framework.system.MessageType.STRING,
   };
   this.context_.start(options);
 
@@ -76,14 +76,14 @@ Player.prototype.setupCallbacks_ = function() {
 
   // Initializes IMA SDK when Media Manager is loaded.
   this.playerManager_.setMessageInterceptor(
-    cast.framework.messages.MessageType.LOAD,
-    (request) => {
-      if (!this.request_) {
-        self.initIMA_();
-      }
-      this.request_ = request;
-      return request;
-    });
+      cast.framework.messages.MessageType.LOAD,
+      (request) => {
+        if (!this.request_) {
+          self.initIMA_();
+        }
+        this.request_ = request;
+        return request;
+      });
 };
 
 /**
