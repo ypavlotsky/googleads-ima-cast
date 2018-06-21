@@ -28,10 +28,6 @@ let Player = function() {
   this.mediaElement_ = document.getElementById('player').getMediaElement();
 
   const options = new cast.framework.CastReceiverOptions();
-  // Map of namespace names to their types.
-  options.customNamespaces = {
-    'urn:x-cast:com.google.ads.ima.cast': cast.framework.system.MessageType.STRING,
-  };
   this.context_.start(options);
 
   this.setupCallbacks_();
