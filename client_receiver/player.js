@@ -184,9 +184,10 @@ Player.prototype.onContentResumeRequested_ = function() {
   this.broadcast_('onContentResumeRequested');
 
 var millisecondsToWait = 8000;
-  setTimeout(function() {
-  this.playerManager_.load(this.request_);
-  this.seek_(this.currentContentTime_);
+  let player = this;
+  setTimeout(function(player) {
+  player.playerManager_.load(this.request_);
+  player.seek_(this.currentContentTime_);
   }, millisecondsToWait);
 
 };
