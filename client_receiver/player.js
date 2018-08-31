@@ -189,7 +189,7 @@ Player.prototype.onContentResumeRequested_ = function() {
   }, 1000);
   
  setTimeout(function(player) {
-  this.player.playerManager_.seek(this.player.currentContentTime_);
+  this.player.seek_(this.player.currentContentTime_);
   }, 2000);
 
 };
