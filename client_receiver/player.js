@@ -186,8 +186,8 @@ Player.prototype.onContentResumeRequested_ = function() {
 var millisecondsToWait = 8000;
   let player = this;
   setTimeout(function(player) {
-  player.playerManager_.load(this.request_);
-  player.seek_(this.currentContentTime_);
+  this.player.playerManager_.load(this.request_);
+  this.player.seek_(this.currentContentTime_);
   }, millisecondsToWait);
 
 };
