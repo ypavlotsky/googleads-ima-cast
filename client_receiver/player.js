@@ -82,7 +82,13 @@ Player.prototype.setupCallbacks_ = function() {
           self.initIMA_();
         }
         this.request_ = request;
-        this.playerManager_.pause();
+	if (this.playPromise_ !== undefined) {
+	  this.playPromise_.then(_ => {
+            this.playerManager_.pause();
+	  });
+	} else {
+          this.playerManager_.pause();
+	}
         return request;
       });
 };
@@ -224,5 +230,5 @@ Player.prototype.requestAd_ = function(adTag, currentTime) {
 Player.prototype.seek_ = function(time) {
   this.currentContentTime_ = time;
   this.playerManager_.seek(time);
-  this.playerManager_.play();
+  this.playPromise_ = this.playerManager_.play();
 };
