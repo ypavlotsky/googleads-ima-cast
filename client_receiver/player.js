@@ -183,8 +183,8 @@ Player.prototype.onContentPauseRequested_ = function() {
 Player.prototype.onContentResumeRequested_ = function() {
   this.broadcast_('onContentResumeRequested');
 
-  this.player.playerManager_.load(this.request_);
-  this.player.seek_(this.currentContentTime_);
+  this.playerManager_.load(this.request_);
+  this.seek_(this.currentContentTime_);
 };
 
 /**
