@@ -189,7 +189,7 @@ Player.prototype.onContentResumeRequested_ = function() {
 
 /**
  * Destroys AdsManager when all requested ads have finished playing.
-q * @private
+ * @private
  */
 Player.prototype.onAllAdsCompleted_ = function() {
   if (this.adsManager_) {
