@@ -174,6 +174,7 @@ Player.prototype.onAdError_ = function(adErrorEvent) {
  * @private
  */
 Player.prototype.onContentPauseRequested_ = function() {
+  this.playerManager_.stop();
   this.currentContentTime_ = this.mediaElement_.currentTime;
   this.broadcast_('onContentPauseRequested,' + this.currentContentTime_);
 };
@@ -228,6 +229,6 @@ Player.prototype.seek_ = function(time) {
   this.playerManager_.seek(time);
   let playerState = this.playerManager_.getPlayerState();
   if (playerState === cast.framework.messages.PlayerState.PAUSED) {
-    this.playPromise_ = this.playerManager_.play();
+    this.playerManager_.play();
   }
 };
