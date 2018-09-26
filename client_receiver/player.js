@@ -82,9 +82,9 @@ Player.prototype.setupCallbacks_ = function() {
           self.initIMA_();
         }
         this.request_ = request;
-        if (this.playerManager_.getPlayerState() === cast.framework.messages.PlayerState.PLAYING) {
+        this.playerManager_.play().then(() => {
           this.playerManager_.pause();
-        }
+        });
         return request;
       });
 };
