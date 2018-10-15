@@ -176,6 +176,10 @@ Player.prototype.onAdError_ = function(adErrorEvent) {
  */
 Player.prototype.onContentPauseRequested_ = function() {
   this.currentContentTime_ = this.mediaElement_.currentTime;
+  if (this.playerManager_.getPlayerState() ===
+      cast.framework.messages.PlayerState.PLAYING) {
+    this.playerManager_.pause();
+  }
   this.broadcast_('onContentPauseRequested,' + this.currentContentTime_);
 };
 
